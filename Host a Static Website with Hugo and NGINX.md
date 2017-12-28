@@ -27,12 +27,12 @@ Hugo is promoted as "...one of the most popular open-source static site generato
 Our discussion is best handled in increments by performing the following steps:
 
 * Before You Begin
-* Pointing your domain name to Linode name servers
-* Adding blog subdomain to your domain name
+* Pointing your domain to Linode
+* Adding blog subdomain
 * Installing Hugo
-* Creating a Hugo blog article
+* Creating a blog article
 * Installing Nginx
-* Configuring Nginx as a reverse proxy server
+* Configuring Nginx
 * Learning more about Hugo
 
 ## Before You Begin
@@ -46,7 +46,7 @@ Our discussion is best handled in increments by performing the following steps:
         sudo apt-get update && sudo apt-get upgrade
 
 
-## Pointing your Domain Name to Linode Name Servers
+## Pointing your Domain to Linode
 
 There are two aspects to pointing your registered domain name to your Linode server. Linode DNS Manager needs to be configured with your domain name and the web hosting site from which your domain name was purchased/registered needs to be configured with the address of Linode's name servers. Configuration steps for the Linode side can be found at [DNS Manager Overview](/docs/networking/dns/dns-manager-overview/). A general overiew of [DNS Records](/docs/networking/dns/dns-records-an-introduction/) is also available.
 
@@ -58,10 +58,98 @@ The typical scenario is that you purchased and registered a domain name through 
   <img src="/images/ControlPanel.jpg" alt="Control Panel" /> 
 </p>
 
+Click on the link that lists all the domains or the domain you have registered. In this case I'll click on DomainCentral located in the Domain Tools section.
 
-## Adding blog subdomain to your domain name
+<p align="center">
+  <img src="/images/MyDomains.jpg" alt="Domain Listing" /> 
+</p>
+
+From the list of domains select the one you want to point to your Linode server. In the case where you have only one domain name registered, select that one. On selecting that domain name, an overview of various actions that can be taken on the domain name will be presented.
+
+<p align="center">
+  <img src="/images/Overview.jpg" alt="Overview of possible actions" /> 
+</p>
+
+In this case, I'll select Points to URL icon so as to enter the IP address of my Linode server.
+
+<p align="center">
+  <img src="/images/Pointers.jpg" alt="Point URL to Linode" /> 
+</p>
+
+Now that the URL is pointing to the IP address of your server on Linode, the Linode name servers need to be added.
+
+<p align="center">
+  <img src="/images/Nameservers.jpg" alt="Name servers" /> 
+</p>
+
+The following name server entries should be made:
+* ns1.linode.com
+* ns2.linode.com
+* ns3.linode.com
+* ns4.linode.com
+* ns5.linode.com
+
+It is best of follow the instructions provided for your specific scenario. The scenario discussed above applies to previously purchasing a domain name through one of the common shared web hosting providers such as Bluehost, Godaddy, or Fatcow.
+
+
+## Adding blog subdomain
+
+One to the things you may want to do is add a subdomain to your domain and have this url point to your blog articles. For example if your domain is http://example.com adding a blog subdomain creates http://blog.example.com. Log into your Linode server account and select the DNS Manager tab.
+
+<p align="center">
+  <img src="/images/AAAA.jpg" alt="AAAA records" /> 
+</p>
+
+In the section for A/AAAA Records select the link Add a new A record.  For Hostname add: http://blog.example.com . For IP Address enter the IP address of your Linode server. 
+
+<p align="center">
+  <img src="/images/EditAAAA.jpg" alt="Editing AAAA records" /> 
+</p>
+
+{{< note >}}
+Your IP address can be found by selecting the Linodes tab. Replace example.com with your registered domain name. Save the Changes to the A/AAAA Record. Subdomain blog should now appear in the list of A/AAAA Records.
+{{< /note>}}
+
 ## Installing Hugo
-## Creating a Hugo blog article
+
+Open a terminal window and log in to your Linode server at the command line with SSH. A typical command line log in should look as follows:
+
+    ssh username@IPAddress
+
+Further clarification on logging in with SSH can be found in the [Getting started](/docs/getting-started) guide in the section titled *Log In for the First Time*. Create a directory named hugo and change into this directory. 
+
+    cd ~
+    mkdir hugo
+    cd hugo
+
+Use command wget to get the latest Hugo release files. Latest releases are located at [Hugo releases](https://github.com/gohugoio/hugo/releases).
+
+    wget https://github.com/gohugoio/hugo/releases/download/v0.31.1/hugo_0.31.1_Linux-64bit.deb
+
+To get the link to the release you wish to obtain right click on the release link and select Copy Link. Paste in the terminal window.
+
+<p align="center">
+  <img src="/images/CopyLink.jpg" alt="Copy release links" /> 
+</p>
+
+Install the package using the Terminal console with the following command:
+
+    sudo dpk -i hugo *.deb
+
+Installation of Hugo can be confirmed by checking the version of Hugo that was installed:
+
+    hugo version
+
+Another way to test the installation is with the Hugo help command:
+    hugo help
+
+Results should be similar to:
+
+{{< section file="/hugo_help_results.md" >}}
+
+
+
+## Creating a blog article
 ## Installing Nginx
 ## Configuring Nginx as a reverse proxy server
 
