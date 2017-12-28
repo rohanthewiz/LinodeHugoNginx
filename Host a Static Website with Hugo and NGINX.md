@@ -55,7 +55,7 @@ There are two aspects to pointing your registered domain name to your Linode ser
 The typical scenario is that you purchased and registered a domain name through one of the popular shared web hosting provider. Now you need to have the domain name point to your Linode server. Navigate to the Control Panel on your shared web hosting.
 
 <p align="center">
-![Control Panel](/images/ControlPanel.jpg) 
+  <img src="/images/ControlPanel.jpg" alt="Control Panel" /> 
 </p>
 
 
