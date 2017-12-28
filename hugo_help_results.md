@@ -1,3 +1,4 @@
+```bash
 hugo is the main command, used to build your Hugo site.
 
 Hugo is a Fast and Flexible Static Site Generator
@@ -34,3 +35,4 @@ Flags:
       --config string              config file (default is path/config.yaml|json|toml)
   -c, --contentDir string          filesystem path to content directory
       --debug                      debug output
+```
