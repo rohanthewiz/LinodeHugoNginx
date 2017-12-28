@@ -16,4 +16,7 @@ contributor:
 external_resources:
   - '[Hugo Getting Started](https://gohugo.io/getting-started/)'
   - '[Nginx docs](http://nginx.org/en/docs/)'
+  - '[Running Hugo in the background](https://discourse.gohugo.io/t/run-server-as-background/3252)'
+  - '[Setting appendPort and baseUrl](https://github.com/gohugoio/hugo/issues/852)'
+  - '[Hugo styling not working](https://discourse.gohugo.io/t/hugo-static-styling-not-working-whereas-hugo-server-works/2916)'
 ---
