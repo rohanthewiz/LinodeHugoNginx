@@ -22,7 +22,7 @@ external_resources:
 ---
 
 Hugo is promoted as "...one of the most popular open-source static site generators." In this article we will discuss installing 
-'[Hugo](https://gohugo.io/)' on Ubuntu 16.04, then discuss installing and configuring '[Nginx](http://nginx.org/)' as a reverse proxy. We will begin by pointing your registered domain name to Linode name servers. The ultimate goal is to enter a URL such as http://blog.example.com in your web browser to display your Hugo blog articles hosted on Linode.
+[Hugo](https://gohugo.io/) on Ubuntu 16.04, then discuss installing and configuring [Nginx](http://nginx.org/) as a reverse proxy. We will begin by pointing your registered domain name to Linode name servers. The ultimate goal is to enter a URL such as http://blog.example.com in your web browser to display your Hugo blog articles hosted on Linode.
 
 Our discussion is best handled in increments by performing the following steps:
 
@@ -187,11 +187,183 @@ Flags:
 
 
 
-
-
 ## Creating a blog article
+
+If you are getting started with creating blog articles with Hugo the best source of accurate and updated instructions is the Hugo site [Getting Started Quick Start Guide](https://gohugo.io/getting-started/quick-start/). Instructions begin at Step 2: *Create a New Site*.
+
 ## Installing Nginx
-## Configuring Nginx as a reverse proxy server
+
+Now that you have a basic Hugo blog post created, the next issue is making it accessible to the public using your domain name. Hugo blog has a built-in server that runs, by default, at port 1313. This means that if Hugo was installed on your local machine, such as a desktop or laptop, it is accessible with http://localhost:1313/ . 
+
+Since our Linode machine is remote, using http://example.com:1313 will not give us access to the Hugo blog without further configurations to our Ubuntu installation. Providing direct port access can increase vulnerabilities to web-based attacks. Using Nginx protects your Linode server against common vulnerabilities and can be configured to make several server instances publicly accessible on port 80 by adding sub-domains to your domain name. 
+
+In our case we added blog sub-domain to create URL http://blog.example.com .
+
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Reverse_proxy_h2g2bob.svg/400px-Reverse_proxy_h2g2bob.svg.png" alt="Nginx as Reverse proxy" /> 
+</p>
+
+Let's [install Nginx](http://nginx.org/en/linux_packages.html) and check that it is running.
+
+    sudo apt-get update
+    sudo apt-get install nginx
+    systemctl status nginx
+
+If the Nginx server is running as expected the following output should be displayed:
+
+```bash
+● nginx.service - A high performance web server and a reverse proxy server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+   Active: active (running) since Thu 2017-12-14 10:48:55 CST; 1 weeks 6 days ago
+  Process: 2332 ExecStop=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid (code=exited, status=0/SUCCESS)
+  Process: 25525 ExecReload=/usr/sbin/nginx -g daemon on; master_process on; -s reload (code=exited, status=0/SUCCESS)
+  Process: 2360 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+  Process: 2339 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+ Main PID: 2371 (nginx)
+    Tasks: 2
+   Memory: 2.7M
+      CPU: 1.014s
+   CGroup: /system.slice/nginx.service
+           ├─2371 nginx: master process /usr/sbin/nginx -g daemon on; master_process on
+           └─2374 nginx: worker process  
+```
+
+
+## Configuring Nginx
+
+There are a number of commands that will become necessary for starting, stopping, reloading, and checking the status of the nginx server as changes are made to the nginx server configuration file /etc/nginx/sites-available/default.
+
+    // Check server status
+    systemctl status nginx
+
+    // Reload Nginx without stopping
+    systemctl reload nginx
+
+    // Stopping Nginx server
+    systemctl stop nginx
+
+Modify Nginx server configuration with the following command:
+
+    cd ~
+    sudo vim /etc/nginx/sites-available/default
+
+The most challenging aspect of making your Hugo blog publicly available with Nginx is getting the configuration correct. The arrangement below shows the configuration for two server applications. The first allows http://example.com/ to access a server application running on port 8081 and the second http://blog.example.com/ will access our Hugo blog running on port 1313. 
+
+```bash
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # SSL configuration
+        #
+        # listen 443 ssl default_server;
+        # listen [::]:443 ssl default_server;
+        #
+        # Note: You should disable gzip for SSL traffic.
+        # See: https://bugs.debian.org/773332
+        #
+        # Read up on ssl_ciphers to ensure a secure configuration.
+        # See: https://bugs.debian.org/765782
+        #
+        # Self signed certs generated by the ssl-cert package
+        # Don't use them in a production server!
+        #
+        # include snippets/snakeoil.conf;
+
+        root /var/www/html;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.example.com example.com;
+
+        location / {
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $remote_addr;
+                proxy_set_header Host $host;
+                proxy_pass http://127.0.0.1:8081;
+        }
+
+        #location /blog {
+        #       rewrite ^/blog(.*) /$1 break;
+
+        #       proxy_set_header X-Real-IP $remote_addr;
+        #        proxy_set_header X-Forwarded-For $remote_addr;
+        #        proxy_set_header Host $host;
+        #       proxy_pass http://127.0.0.1:1313;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #       include snippets/fastcgi-php.conf;
+        #
+        #       # With php7.0-cgi alone:
+        #       fastcgi_pass 127.0.0.1:9000;
+        #       # With php7.0-fpm:
+        #       fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #       deny all;
+        #}
+}
+
+server {
+        listen 80;
+
+        root /var/www/html;
+
+        server_name blog.example.com;
+
+        location / {
+
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $remote_addr;
+                proxy_set_header Host $host;
+                proxy_pass http://127.0.0.1:1313;
+        }
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#       listen 80;
+#       listen [::]:80;
+#
+#       server_name example.com;
+#
+#       root /var/www/example.com;
+#       index index.html;
+#
+#       location / {
+#               try_files $uri $uri/ =404;
+#       }
+#}
+
+```
 
 ### Running Hugo server at the command-line
 
