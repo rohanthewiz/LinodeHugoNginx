@@ -367,6 +367,75 @@ server {
 
 ### Running Hugo server at the command-line
 
+An equally challenging issue to configuring Nginx, is issuing the correct command to get the Hugo blog running correctly. Consider the following command with runs blog articles in draft stage using [Material Design](https://themes.gohugo.io/material-design/) theme.
+
+    hugo server -t material-design -D
+
+Output from the Terminal console will be similar to:
+
+```bash
+Started building sites ...
+
+Built site for language en:
+1 of 1 draft rendered
+0 future content
+0 expired content
+1 regular pages created
+8 other pages created
+0 non-page files copied
+2 paginator pages created
+0 tags created
+0 categories created
+total in 8 ms
+Watching for changes in /home/your-username/hugo/{data,content,layouts,themes,static}
+Serving pages from memory
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
+
+```
+
+Note that the web server is available at http://locahost:1313/. If you attempt to enter your domain name http://blog.example.com/ in a web browser, content from your blog will appear. However, it will appear without the CSS formatting. Viewing the web browser page source will show that links to page CSS files include http://localhost:1313/. Clearly what we need is something similar to http://example.com/css/styles.css. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
+
+    hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false &
+
+This command outputs the listing below to the Terminal console.
+
+```bash
+Started building sites ...
+
+Built site for language en:
+1 of 1 draft rendered
+0 future content
+0 expired content
+1 regular pages created
+8 other pages created
+0 non-page files copied
+2 paginator pages created
+0 tags created
+0 categories created
+total in 8 ms
+Watching for changes in /home/your-username/hugo/{data,content,layouts,themes,static}
+Serving pages from memory
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at http://blog.example.com/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
+```
+
+Hugo is now available at http://blog.example.com/ and not http://localhost:1313 as before in the Terminal console. 
+
+{{< note >}}
+Notice the use of the & at the end of the command to run Hugo. This keeps the Hugo server running and allows us to logout and close the console terminal. Start typing then hit the Return key to return to the command prompt without stopping the Hugo server.
+{{</ note >}}
+
+We should now be able to access our blog article in a web browser with http://blog.example.com/.
+
 ### Tips and Tricks
 
+There are times when shutting down the server with Ctrl + C doesn't do the trick. This will be apparent the next time we attempt to start-up. The console will display something to the effect, "Web Server is available at http://localhost:12345. Port 12345, in this example, is clearly not correct. It is now necessary to shutdown the server running on port 1313. Shutting down the process on port 1313 can be done with:
+
+    sudo kill $(sudo lsof -t -i:1313)
+
 ## Learning more about Hugo
+
+Now that your basic blog site is accessible to the world on via your domain name, you will want to increase the depth of your knowledge about the mechanics of Hugo. [Hugo docs](https://gohugo.io/documentation/) is a great place to start on this quest. [Giraffe Academy](https://www.youtube.com/watch?v=qtIqKaDlqXo) also has a series of great Hugo video tutorials.
