@@ -141,11 +141,12 @@ Installation of Hugo can be confirmed by checking the version of Hugo that was i
     hugo version
 
 Another way to test the installation is with the Hugo help command:
+
     hugo help
 
 Results should be similar to:
 
-{{< section file="/hugo_help_results.md" >}}
+{{< section file="hugo_help_results.md" >}}
 
 
 
