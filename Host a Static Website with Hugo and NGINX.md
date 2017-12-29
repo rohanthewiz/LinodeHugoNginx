@@ -106,9 +106,9 @@ In the section for A/AAAA Records select the link Add a new A record.  For Hostn
   <img src="/images/EditAAAA.jpg" alt="Editing AAAA records" /> 
 </p>
 
-{{< note >}}
+{{&lt; note &gt;}}
 Your IP address can be found by selecting the Linodes tab. Replace example.com with your registered domain name. Save the Changes to the A/AAAA Record. Subdomain blog should now appear in the list of A/AAAA Records.
-{{< /note >}}
+{{&lt; /note &gt;}}
 
 ## Installing Hugo
 
@@ -424,9 +424,9 @@ Press Ctrl+C to stop
 
 Hugo is now available at http://blog.example.com/ and not http://localhost:1313 as before in the Terminal console. 
 
-{{< note >}}
+{{&lt; note &gt;}}
 Notice the use of the & at the end of the command to run Hugo. This keeps the Hugo server running and allows us to logout and close the console terminal. Start typing then hit the Return key to return to the command prompt without stopping the Hugo server.
-{{< /note >}}
+{{&lt; /note &gt;}}
 
 We should now be able to access our blog article in a web browser with http://blog.example.com/.
 
