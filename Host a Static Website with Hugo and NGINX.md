@@ -25,7 +25,7 @@ external_resources:
 Hugo is promoted as "...one of the most popular open-source static site generators." In this article we will discuss installing 
 [Hugo](https://gohugo.io/) on Ubuntu 16.04, then discuss installing and configuring [Nginx](http://nginx.org/) as a reverse proxy. We will begin by pointing your registered domain name to Linode name servers. The ultimate goal is to enter a URL such as http://blog.example.com in your web browser to display your Hugo blog articles hosted on Linode.
 
-Our discussion is best handled in increments by performing the following steps:
+Our discussion is best handled in increments in the following sections:
 
 * Before You Begin
 * Pointing your domain to Linode
@@ -319,9 +319,30 @@ Press Ctrl+C to stop
 
 ```
 
-Note that the web server is available at http://locahost:1313/. If you attempt to enter your domain name http://blog.example.com/ in a web browser, content from your blog will appear. However, it will appear without the CSS formatting. Viewing the web browser page source will show that links to page CSS files include http://localhost:1313/. Clearly what we need is something similar to http://example.com/css/styles.css. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
+Note that the web server is available at http://locahost:1313/. If you attempt to enter your domain name http://blog.example.com/ in a web browser, content from your blog will appear. However, it will appear without the CSS formatting. 
+
+<p align="center">
+  <img src="/images/NoCSS.jpg" alt="Website without CSS" /> 
+</p>
+
+Viewing the web browser page source will show that links to page CSS files include http://localhost:1313/. 
+
+<p align="center">
+  <img src="/images/LocalhostCSS.jpg" alt="Page source with localhost CSS" /> 
+</p>
+
+Clearly what we need is something similar to http://example.com/css/style.css. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
 
     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false &
+
+{{&lt; note &gt;}}
+  1. If not already in the directory containing the Hugo files, change into that directory.
+    cd hugo/
+
+  2. Replace example.com in the command above with your domain name so that the command becomes:
+    hugo server -t YOUR-TEMPLATE-NAME -D --baseUrl="http://blog.YOUR-DOMAIN-NAME" --appendPort=false &
+{{&lt; /note &gt;}}
+
 
 This command outputs the listing below to the Terminal console.
 
@@ -352,13 +373,77 @@ Hugo is now available at http://blog.example.com/ and not http://localhost:1313 
 Notice the use of the & at the end of the command to run Hugo. This keeps the Hugo server running and allows us to logout and close the console terminal. Start typing then hit the Return key to return to the command prompt without stopping the Hugo server.
 {{&lt; /note &gt;}}
 
-We should now be able to access our blog article in a web browser with http://blog.example.com/.
+We should now be able to access our blog article in a web browser with http://blog.example.com/. A view of the page source now shows css links such as http://blog.example.com/css/style.css .
+
+<p align="center">
+  <img src="/images/CorrectCSSLink.jpg" alt="Page source with correct CSS" /> 
+</p>
 
 ### Tips and Tricks
 
-There are times when shutting down the server with Ctrl + C doesn't do the trick. This will be apparent the next time we attempt to start-up. The console will display something to the effect, "Web Server is available at http://localhost:12345. Port 12345, in this example, is clearly not correct. It is now necessary to shutdown the server running on port 1313. Shutting down the process on port 1313 can be done with:
+Much like installing any other software, setting up Hugo can present unexpected challenges. A few of the most typical issues are addressed here.
+
+#### Config file not found error
+
+Running the command to start the Hugo server from outside the Hugo directory will result in a Config file not found error. Change into the Hugo directory before attempting to start the Hugo server.
+
+    Error: Unable to locate Config file. Perhaps you need to create a new site.
+       Run `hugo help new` for details. (Config File "config" Not Found in "[/home/YOUR-USERNAME]")
+
+#### Hugo server did not shutdown using CTRL+C
+
+There are times when shutting down the server with Ctrl + C doesn't do the trick. This will be apparent the next time we attempt to start-up. The console will display something to the effect, "Web Server is available at http://localhost:12345. Port 12345, in this example, is clearly not the desired port. 
+    
+    ERROR 2017/12/30 12:18:30 port 1313 already in use, attempting to use an available port
+Started building sites ...
+
+It is now necessary to shutdown the server running on port 1313. Shutting down the process on port 1313 can be done with:
 
     sudo kill $(sudo lsof -t -i:1313)
+
+Terminal output should be similar to:
+
+    [1]-  Terminated     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false
+
+However, stopping the process on port 1313 is not enough as a new Hugo process was fired up on Port 12345 since port 1313 was not available. In this situation running command ps aux | grep hugo should show that there are more than one Hugo servers running with different Process IDs.
+
+    username@localhost:~$ ps aux | grep hugo
+    username 15831  0.0  2.2  39340 22744 ?        Sl   12:18   0:01 hugo server -t material-design -D --baseUrl=...
+    username 15935  0.0  2.2  40396 22768 ?        Sl   12:42   0:01 hugo server -t material-design -D --baseUrl=...
+    username 16546  0.0  0.0  14224   940 pts/1    S+   15:08   0:00 grep --color=auto hugo
+
+{{&lt; note &gt;}}
+--baseUrl=http://blog.example.com --appendPort=false was shorted above to --baseUrl=...
+{{&lt; /note &gt;}}
+
+A better approach is to use the pkill command.
+
+    pkill hugo
+
+Then show the list of hugo processes.
+
+   ps aux | grep hugo
+
+Which should return output:
+
+   username 16628  0.0  0.1  14224  1020 pts/1    S+   15:29   0:00 grep --color=auto hugo
+
+
+#### Web Browser Returns Bad Gateway
+
+Bad Gateway can be returned by the web browser if the Hugo server is not running or is not running at port 1313. 
+
+<p align="center">
+  <img src="/images/BadGateway.jpg" alt="Bad Gateway web page" /> 
+</p>
+
+One way to findout more about status of the Hugo server is to issue command:
+
+    ps aux | grep hugo
+
+If Hugo is stopped the command returns an output similar to:
+    username 15873  0.0  0.1  14224  1024 pts/2    S+   12:29   0:00 grep --color=auto hugo
+
 
 ## Learning more about Hugo
 
