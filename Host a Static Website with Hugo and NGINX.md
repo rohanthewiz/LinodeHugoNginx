@@ -201,7 +201,7 @@ Since our Linode machine is remote, using http://example.com:1313 will not give 
 In our case we added blog sub-domain to create URL http://blog.example.com .
 
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Reverse_proxy_h2g2bob.svg/400px-Reverse_proxy_h2g2bob.svg.png" alt="Nginx as Reverse proxy" /> 
+  <img src="/images/Nginxrevproxy.jpg" alt="Nginx as Reverse proxy" /> 
 </p>
 
 Let's [install Nginx](http://nginx.org/en/linux_packages.html) and check that it is running.
