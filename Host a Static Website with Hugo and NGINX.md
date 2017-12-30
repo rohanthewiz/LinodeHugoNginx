@@ -376,7 +376,7 @@ Notice the use of the & at the end of the command to run Hugo. This keeps the Hu
 We should now be able to access our blog article in a web browser with http://blog.example.com/. A view of the page source now shows css links such as http://blog.example.com/css/style.css .
 
 <p align="center">
-  <img src="/images/CorrectCSSLink.jpg" alt="Page source with correct CSS" /> 
+  <img src="/images/CSSLink.jpg" alt="Page source with correct CSS" /> 
 </p>
 
 ### Tips and Tricks
