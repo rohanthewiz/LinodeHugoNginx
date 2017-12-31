@@ -365,8 +365,7 @@ Clearly what we need is something similar to `http://example.com/css/style.css`.
     hugo server -t material-design -D --baseUrl="`http://blog.example.com`" --appendPort=false &
 
 {{< note >}}
-  1. If not already in the directory containing the Hugo files, change into that directory.
-    cd hugo/
+  1. If not already in the directory containing the Hugo files, change into that directory: `cd hugo`
 
   2. Replace `example.com` in the command above with your domain name as shown in the command below:
 {{< /note >}}
