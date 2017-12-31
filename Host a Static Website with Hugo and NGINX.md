@@ -36,7 +36,8 @@ The steps in this guide require root privileges. Be sure to run the steps below 
 Throughout this guide commands will be given with example variables to provide general instructions for all readers. Replace each example variable in each command as described in the table below.
 {{< /note >}}
 
-
+| Example Variable         | Action to Take                                        |
+|--------------------------|-------------------------------------------------------|
 | `http://blog.example.com`| Replace with the subdomain for your website address   |
 | `http://example.com`     | Replace with your website address                     |
 | YOUR-TEMPLATE-NAME       | Replace with the Hugo theme that you downloaded       |
