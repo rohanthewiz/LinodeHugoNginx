@@ -3,7 +3,7 @@ author:
   name: Linode Community
   email: docs@linode.com
 description: Guide for hosting Hugo on Ubuntu 16.04 with Nginx as reverse proxy.
-keywords: ["Hugo", "Ubuntu 16.04", "Nginx", "reverse proxy"]
+keywords: ["Hugo", "Ubuntu 16.04", "Nginx", "Reverse proxy"]
 license: '[CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0)'
 published: 2017-12-28
 modified: 2017-12-28
@@ -25,26 +25,22 @@ external_resources:
 Hugo is promoted as "...one of the most popular open-source static site generators." In this article we will discuss installing 
 [Hugo](https://gohugo.io/) on Ubuntu 16.04, then discuss installing and configuring [Nginx](http://nginx.org/) as a reverse proxy. We will begin by pointing your registered domain name to Linode name servers. The ultimate goal is to enter a URL such as http://blog.example.com in your web browser to display your Hugo blog articles hosted on Linode.
 
-Our discussion is best handled in increments in the following sections:
-
-* Before You Begin
-* Pointing your domain to Linode
-* Adding blog subdomain
-* Installing Hugo
-* Creating a blog article
-* Installing Nginx
-* Configuring Nginx
-* Learning more about Hugo
 
 ## Before You Begin
+
+Begin by completing the Getting Started guide and Securing Your Server guide if you are getting started with Linode for the first time.
 
 1.  Familiarize yourself with our [Getting Started](/docs/getting-started) guide and complete the steps for setting your Linode's hostname and timezone. The guide explains how to sign-up, deploy a Ubuntu 16.04 image and connect to your Linode server using secure shell protocol (SSH). For the purpose of installing Hugo and configuring Nginx, it is not necessary to do the "Setting the Hostname" steps.
 
 2.  This guide will use `sudo` wherever possible. Complete the sections of our [Securing Your Server](/docs/security/securing-your-server) to create a standard user account, harden SSH access and remove unnecessary network services.
 
-3.  Update your system:
+### Ubuntu Installation Update
 
-        sudo apt-get update && sudo apt-get upgrade
+Begin by updating Ubuntu if you have an existing Ubuntu installation and have previously completed the two steps above.
+
+Update your Ubuntu installation:
+
+    sudo apt-get update
 
 
 ## Pointing your Domain to Linode
@@ -388,7 +384,7 @@ Much like installing any other software, setting up Hugo can present unexpected 
 Running the command to start the Hugo server from outside the Hugo directory will result in a Config file not found error. Change into the Hugo directory before attempting to start the Hugo server.
 
     Error: Unable to locate Config file. Perhaps you need to create a new site.
-       Run `hugo help new` for details. (Config File "config" Not Found in "[/home/YOUR-USERNAME]")
+       Run `hugo help new` for details. (Config File "config" Not Found in "[/home/username]")
 
 #### Hugo server did not shutdown using CTRL+C
 
@@ -405,7 +401,7 @@ Terminal output should be similar to:
 
     [1]-  Terminated     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false
 
-However, stopping the process on port 1313 is not enough as a new Hugo process was fired up on Port 12345 since port 1313 was not available. In this situation running command ps aux | grep hugo should show that there are more than one Hugo servers running with different Process IDs.
+However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 because port 1313 was not available. In this situation running command ps aux | grep hugo should show that there are more than one Hugo servers running. Each is running with a different Process ID.
 
     username@localhost:~$ ps aux | grep hugo
     username 15831  0.0  2.2  39340 22744 ?        Sl   12:18   0:01 hugo server -t material-design -D --baseUrl=...
@@ -437,7 +433,7 @@ Bad Gateway can be returned by the web browser if the Hugo server is not running
   <img src="/images/BadGateway.jpg" alt="Bad Gateway web page" /> 
 </p>
 
-One way to findout more about status of the Hugo server is to issue command:
+One way to find out more about status of the Hugo server is to issue command:
 
     ps aux | grep hugo
 
@@ -447,4 +443,4 @@ If Hugo is stopped the command returns an output similar to:
 
 ## Learning more about Hugo
 
-Now that your basic blog site is accessible to the world on via your domain name, you will want to increase the depth of your knowledge about the mechanics of Hugo. [Hugo docs](https://gohugo.io/documentation/) is a great place to start on this quest. [Giraffe Academy](https://www.youtube.com/watch?v=qtIqKaDlqXo) also has a series of great Hugo video tutorials.
+Now that your basic blog site is accessible to the world using your domain name, you will want to further increase the depth of your knowledge about the mechanics of creating and updating your Hugo blog. [Hugo docs](https://gohugo.io/documentation/) is a great place to start on this quest. [Giraffe Academy](https://www.youtube.com/watch?v=qtIqKaDlqXo) also has a series of great Hugo video tutorials.
