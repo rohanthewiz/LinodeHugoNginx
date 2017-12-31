@@ -5,8 +5,8 @@ author:
 description: Guide for hosting Hugo on Ubuntu 16.04 with Nginx as reverse proxy.
 keywords: ["Hugo", "Ubuntu 16.04", "Nginx", "Reverse proxy"]
 license: '[CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0)'
-published: 2017-12-28
-modified: 2017-12-28
+published: 2017-12-30
+modified: 2017-12-30
 modified_by:
   name: Linode
 title: Host a Static Website with Hugo and NGINX
@@ -23,10 +23,26 @@ external_resources:
 ---
 
 Hugo is promoted as "...one of the most popular open-source static site generators." In this article we will discuss installing 
-[Hugo](https://gohugo.io/) on Ubuntu 16.04, then discuss installing and configuring [Nginx](http://nginx.org/) as a reverse proxy. We will begin by pointing your registered domain name to Linode name servers. The ultimate goal is to enter a URL such as http://blog.example.com in your web browser to display your Hugo blog articles hosted on Linode.
+[Hugo](https://gohugo.io/) on Ubuntu 16.04, then discuss installing and configuring [Nginx](http://nginx.org/) as a reverse proxy. We will begin by pointing your registered domain name to Linode name servers. The ultimate goal is to enter a URL such as `http://blog.example.com` in your web browser to display your Hugo blog articles hosted on Linode.
 
 
 ## Before You Begin
+
+{{< note >}}
+The steps in this guide require root privileges. Be sure to run the steps below as `root` or with the `sudo` prefix. For more information on privileges, see our [Users and Groups](/docs/tools-reference/linux-users-and-groups) guide.
+{{< /note >}}
+
+{{< note >}}
+Throughout this guide commands will be given with example variables to provide general instructions for all readers. Replace each example variable in each command as described in the table below.
+{{< /note >}}
+
+
+| `http://blog.example.com`| Replace with the subdomain for your website address   |
+| `http://example.com`     | Replace with your website address                     |
+| YOUR-TEMPLATE-NAME       | Replace with the Hugo theme that you downloaded       |
+| YOUR-DOMAIN-NAME         | Replace with the domain name for your website         |
+| username                 | Replace with Linode login user name                   |
+
 
 Begin by completing the Getting Started guide and Securing Your Server guide if you are getting started with Linode for the first time.
 
@@ -34,11 +50,10 @@ Begin by completing the Getting Started guide and Securing Your Server guide if 
 
 2.  This guide will use `sudo` wherever possible. Complete the sections of our [Securing Your Server](/docs/security/securing-your-server) to create a standard user account, harden SSH access and remove unnecessary network services.
 
+
 ### Ubuntu Installation Update
 
 Begin by updating Ubuntu if you have an existing Ubuntu installation and have previously completed the two steps above.
-
-Update your Ubuntu installation:
 
     sudo apt-get update
 
@@ -109,17 +124,24 @@ In the section for A/AAAA Records select the link 'Add a new A record'.  For Hos
   <img src="/images/EditAAAA.jpg" alt="Editing AAAA records" /> 
 </p>
 
-{{&lt; note &gt;}}
-Your IP address can be found by selecting the Linodes tab. Replace example.com with your registered domain name. Save the Changes to the A/AAAA Record. Subdomain `blog` should now appear in the list of A/AAAA Records.
-{{&lt; /note &gt;}}
+{{< note >}}
+Your IP address can be found by selecting the Linodes tab. Replace `example.com` with your registered domain name. Save the Changes to the A/AAAA Record. Subdomain `blog` should now appear in the list of A/AAAA Records.
+{{< /note >}}
+
 
 ## Logging into your Linode Server
 
-Open a terminal window and log in to your Linode server at the command line with SSH. A typical log in command should look as follows:
+Open a Terminal window and log in to your Linode server at the command line with SSH. A typical log in command should look as follows:
 
     ssh username@IPAddress
 
+{{< note >}}
+Enter the `username` that you use to log into your Linode server. This user must have `sudo` privileges.
+Enter the `IPAddress` of your Linode server.
+{{< /note>}}
+
 Further clarification on logging in with SSH can be found in the [Getting started](/docs/getting-started) guide in the section titled *Log In for the First Time*. Create a directory named hugo and change into this directory. 
+
 
 ## Installing Hugo
 
@@ -131,9 +153,9 @@ Use the `wget` command to get the latest Hugo release files. Latest releases are
 
     wget https://github.com/gohugoio/hugo/releases/download/v0.31.1/hugo_0.31.1_Linux-64bit.deb
 
-{{&lt; note &gt;}}
-To get the link to the release you wish to obtain right click on the release link and select Copy Link. Paste in the terminal window.
-{{&lt; /note &gt;}}
+{{< note >}}
+To get the link to the release you wish to obtain right click on the release link and select Copy Link. Paste in the Terminal window.
+{{< /note >}}
 
 <p align="center">
   <img src="/images/CopyLink.jpg" alt="Copy release links" /> 
@@ -197,9 +219,10 @@ Flags:
 
 If you are getting started with creating blog articles with Hugo the best source of accurate and updated instructions is the Hugo site [Getting Started Quick Start Guide](https://gohugo.io/getting-started/quick-start/). Instructions begin at Step 2: *Create a New Site*.
 
+
 ## Installing Nginx
 
-Now that you have a basic Hugo blog post created, the next issue is making it accessible to the public using your domain name. Hugo blog has a built-in server that runs, by default, at port 1313. This means that if Hugo was installed on your local machine, such as a desktop or laptop, it is accessible with http://localhost:1313/ . 
+Now that you have a basic Hugo blog post created, the next issue is making it accessible to the public using your domain name. Hugo blog has a built-in server that runs, by default, at port 1313. This means that if Hugo was installed on your local machine, such as a desktop or laptop, it is accessible with `http://localhost:1313/`. 
 
 Providing direct port access can increase vulnerabilities to web based attacks. Using Nginx protects your Linode server against common vulnerabilities and can be configured to make several server instances publicly accessible on port 80 by adding subdomains to your domain name. 
 
@@ -293,7 +316,8 @@ server {
 }
 ```
 
-### Running Hugo Server at the Command Line
+
+## Running Hugo Server at the Command Line
 
 An equally challenging issue to configuring Nginx, is issuing the correct command to get the Hugo blog running correctly. Consider the following command which s runs blog articles in draft stage using [Material Design](https://themes.gohugo.io/material-design/) theme.
 
@@ -329,23 +353,23 @@ Note that the web server is available at http://locahost:1313/. If you attempt t
   <img src="/images/NoCSS.jpg" alt="Website without CSS" /> 
 </p>
 
-Viewing the web browser page source will show that links to page CSS files include http://localhost:1313/. 
+Viewing the web browser page source will show that links to page CSS files include `http://localhost:1313/`. 
 
 <p align="center">
   <img src="/images/LocalhostCSS.jpg" alt="Page source with localhost CSS" /> 
 </p>
 
-Clearly what we need is something similar to http://example.com/css/style.css. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
+Clearly what we need is something similar to `http://example.com/css/style.css`. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
 
-    hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false &
+    hugo server -t material-design -D --baseUrl="`http://blog.example.com`" --appendPort=false &
 
-{{&lt; note &gt;}}
+{{< note >}}
   1. If not already in the directory containing the Hugo files, change into that directory.
     cd hugo/
 
-  2. Replace example.com in the command above with your domain name so that the command becomes:
+  2. Replace `example.com` in the command above with your domain name so that the command becomes:
     hugo server -t YOUR-TEMPLATE-NAME -D --baseUrl="http://blog.YOUR-DOMAIN-NAME" --appendPort=false &
-{{&lt; /note &gt;}}
+{{< /note >}}
 
 
 This command outputs the listing below to the Terminal console.
@@ -373,9 +397,9 @@ Press Ctrl+C to stop
 
 Hugo is now available at `http://blog.example.com/` and not `http://localhost:1313` as before in the Terminal console. 
 
-{{&lt; note &gt;}}
-Notice the use of the & at the end of the command to run Hugo. This keeps the Hugo server running and allows us to logout and close the console terminal. Start typing then hit the Return key to return to the command prompt without stopping the Hugo server.
-{{&lt; /note &gt;}}
+{{< note >}}
+Notice the use of the & at the end of the command to run Hugo. This keeps the Hugo server running and allows us to logout and close the console Terminal. Start typing then hit the Return key to return to the command prompt without stopping the Hugo server.
+{{< /note >}}
 
 We should now be able to access our blog article in a web browser with `http://blog.example.com/`. A view of the page source now shows css links such as `http://blog.example.com/css/style.css`.
 
@@ -383,23 +407,33 @@ We should now be able to access our blog article in a web browser with `http://b
   <img src="/images/CSSLink.jpg" alt="Page source with correct CSS" /> 
 </p>
 
-### Tips and Tricks
+
+## Tips and Tricks
 
 Much like installing any other software, setting up Hugo can present unexpected challenges. A few of the most typical issues are addressed here.
 
-#### Config File not Found Error
+### Config File not Found Error
 
 Running the command to start the Hugo server from outside the Hugo directory will result in a Config file not found error. Change into the Hugo directory before attempting to start the Hugo server.
 
     Error: Unable to locate Config file. Perhaps you need to create a new site.
        Run `hugo help new` for details. (Config File "config" Not Found in "[/home/username]")
 
-#### Hugo Server did not Shutdown Using CTRL+C
+### Hugo Server did not Shutdown Using **CTRL+C**
 
-There are times when shutting down the server with Ctrl + C doesn't do the trick. This will be apparent the next time we attempt to start-up. The console will display something to the effect, "Web Server is available at `http://localhost:12345`. Port 12345, in this example, is clearly not the desired port. 
+There are times when shutting down the server with **CTRL+C** doesn't do the trick. This may be apparent the next time we attempt to start-up the Hugo server. For example, the Terminal console may display something to the effect, "Web Server is available at `http://localhost:12345`". 
+
+Here is the scenario that can result in this condition:
+1. **CTRL+C** was used to shutdown the Hugo server. 
+2. We regained the command prompt and so think the server stopped running
+3. Later, we issue the command to start the Hugo server and get the console output, "Web Server is available at `http://localhost:12345`".
+
+This scenario means that the server did not shutdown as expected with **CTRL+C** and so an error statement was issued and a new server instance was created at port 12345. 
     
     ERROR 2017/12/30 12:18:30 port 1313 already in use, attempting to use an available port
-Started building sites ...
+    Started building sites ...
+
+For the purposes of this guide, Hugo running at any port other than port 1313 is not desired. This is because our Nginx server configuration expects that the Hugo server will be running at port 1313. Nginx server block configuration is set to `proxy_pass http://127.0.0.1:1313;`.
 
 It is now necessary to shutdown the server running on port 1313. Shutting down the process on port 1313 can be done with:
 
@@ -407,18 +441,22 @@ It is now necessary to shutdown the server running on port 1313. Shutting down t
 
 Terminal output should be similar to:
 
-    [1]-  Terminated     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false
+    [1]-  Terminated     hugo server -t material-design -D --baseUrl="`http://blog.example.com`" --appendPort=false
 
 However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 because port 1313 was not available. In this situation running command ps aux | grep hugo should show that there are more than one Hugo servers running. Each is running with a different Process ID.
+
+{{< note >}}
+`username` will be replaced with the username you used to login to Linode.
+{{< /note >}}
 
     username@localhost:~$ ps aux | grep hugo
     username 15831  0.0  2.2  39340 22744 ?        Sl   12:18   0:01 hugo server -t material-design -D --baseUrl=...
     username 15935  0.0  2.2  40396 22768 ?        Sl   12:42   0:01 hugo server -t material-design -D --baseUrl=...
     username 16546  0.0  0.0  14224   940 pts/1    S+   15:08   0:00 grep --color=auto hugo
 
-{{&lt; note &gt;}}
---baseUrl=http://blog.example.com --appendPort=false was shorted above to --baseUrl=...
-{{&lt; /note &gt;}}
+{{< note >}}
+--baseUrl=`http://blog.example.com` --appendPort=false was shorted above to --baseUrl=...
+{{< /note >}}
 
 A better approach is to use the pkill command.
 
@@ -432,8 +470,7 @@ Which should return output:
 
     username 16628  0.0  0.1  14224  1020 pts/1    S+   15:29   0:00 grep --color=auto hugo
 
-
-#### Web Browser Returns Bad Gateway
+### Web Browser Returns Bad Gateway
 
 Bad Gateway can be returned by the web browser if the Hugo server is not running or is not running at port 1313. 
 
