@@ -368,9 +368,10 @@ Clearly what we need is something similar to `http://example.com/css/style.css`.
   1. If not already in the directory containing the Hugo files, change into that directory.
     cd hugo/
 
-  2. Replace `example.com` in the command above with your domain name so that the command becomes:
-    hugo server -t YOUR-TEMPLATE-NAME -D --baseUrl="http://blog.YOUR-DOMAIN-NAME" --appendPort=false &
+  2. Replace `example.com` in the command above with your domain name as shown in the command below:
 {{< /note >}}
+
+    hugo server -t YOUR-TEMPLATE-NAME -D --baseUrl="http://blog.YOUR-DOMAIN-NAME" --appendPort=false &
 
 
 This command outputs the listing below to the Terminal console.
