@@ -348,7 +348,7 @@ Press Ctrl+C to stop
 
 ```
 
-Note that the web server is available at http://locahost:1313/. If you attempt to enter your domain name http://blog.example.com/ in a web browser, content from your blog will appear. However, it will appear without the CSS formatting. 
+Note that the web server is available at `http://locahost:1313/`. If you attempt to enter your domain name `http://blog.example.com/` in a web browser, content from your blog will appear. However, it will appear without the CSS formatting. 
 
 <p align="center">
   <img src="/images/NoCSS.jpg" alt="Website without CSS" /> 
@@ -442,7 +442,7 @@ It is now necessary to shutdown the server running on port 1313. Shutting down t
 
 Terminal output should be similar to:
 
-    [1]-  Terminated     hugo server -t material-design -D --baseUrl="`http://blog.example.com`" --appendPort=false
+    [1]-  Terminated     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false
 
 However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 because port 1313 was not available. In this situation running command ps aux | grep hugo should show that there are more than one Hugo servers running. Each is running with a different Process ID.
 
