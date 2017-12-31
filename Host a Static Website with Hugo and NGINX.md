@@ -422,11 +422,11 @@ A better approach is to use the pkill command.
 
 Then show the list of hugo processes.
 
-   ps aux | grep hugo
+    ps aux | grep hugo
 
 Which should return output:
 
-   username 16628  0.0  0.1  14224  1020 pts/1    S+   15:29   0:00 grep --color=auto hugo
+    username 16628  0.0  0.1  14224  1020 pts/1    S+   15:29   0:00 grep --color=auto hugo
 
 
 #### Web Browser Returns Bad Gateway
