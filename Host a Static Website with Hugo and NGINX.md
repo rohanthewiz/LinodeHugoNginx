@@ -383,7 +383,7 @@ Viewing the web browser page source will show that links to page CSS files inclu
 
 Clearly what we need is something similar to `http://example.com/css/style.css`. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
 
-    hugo server -t material-design -D --baseUrl="`http://blog.example.com`" --appendPort=false &
+    hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false &
 
 {{< note >}}
   1. If not already in the directory containing the Hugo files, change into that directory: `cd hugo`
