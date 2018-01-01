@@ -330,16 +330,16 @@ Press the **Escape** key, then press **:wq** to end editing of the config file. 
 The Vim editor has two modes of operation. 
 1. Command Mode
 
-Press the **Escape** key to enter command mode. Command mode allows several actions such as saving the file and exiting, deleting a character or a line of text, and exiting without saving changes to the file.
+  Press the **Escape** key to enter command mode. Command mode allows several actions such as saving the file and exiting, deleting a character or a line of text, and exiting without saving changes to the file.
 
-* dd  - Delete a line of text
-* x   - Delete a single character
-* :wq - Save changes to the file and exit. Execute the command with the **Enter** key.
-* :q! - Exit the file without saving changes. Execute the command with the **Enter** key. 
+  * dd  - Delete a line of text
+  * x   - Delete a single character
+  * :wq - Save changes to the file and exit. Execute the command with the **Enter** key.
+  * :q! - Exit the file without saving changes. Execute the command with the **Enter** key. 
 
 2. Insert Mode
 
-Press **i** to enter insert mode. Insert mode allows text to be added to or deleted from the file.
+  Press **i** to enter insert mode. Insert mode allows text to be added to or deleted from the file.
 
 
 ## Running Hugo Server at the Command Line
