@@ -33,7 +33,7 @@ The steps in this guide require root privileges. Be sure to run the steps below 
 {{< /note >}}
 
 {{< note >}}
-Throughout this guide commands will be given with example variables to provide general instructions for all readers. Replace each example variable in each command as described in the table below.
+Throughout this guide commands will be given with example variables to provide general instructions for all readers. Replace each example variable as described in the table below.
 {{< /note >}}
 
 | Example Variable         | Action to Take                                        |
@@ -45,7 +45,7 @@ Throughout this guide commands will be given with example variables to provide g
 | username                 | Replace with Linode login user name                   |
 
 
-Begin by completing the Getting Started guide and Securing Your Server guide if you are getting started with Linode for the first time.
+Begin by completing the following guides if you are getting started with Linode for the first time.
 
 1.  Familiarize yourself with our [Getting Started](/docs/getting-started) guide and complete the steps for setting your Linode's hostname and timezone. The guide explains how to sign-up, deploy a Ubuntu 16.04 image and connect to your Linode server using the secure shell protocol (SSH). For the purpose of installing Hugo and configuring Nginx, it is not necessary to do the "Setting the Hostname" steps.
 
@@ -69,7 +69,7 @@ Configuration steps for the Linode side can be found at [DNS Manager Overview](/
 
 ### Set Linode Name Servers on Web Hosting
 
-The typical scenario is that you purchased and registered a domain name through one of the popular shared web hosting provider. Now you need to have the domain name point to your Linode server. Navigate to the Control Panel on your shared web hosting.
+The typical scenario is that you purchased and registered a domain name through one of the popular providers such as Bluehost, Godaddy, or Fatcow. Now you need to have the domain point to your Linode server. Navigate to the Control Panel on your shared web hosting.
 
 We will use Fatcow shared web hosting in this example.
 
@@ -108,8 +108,7 @@ The following name server entries should be made:
 * ns4.linode.com
 * ns5.linode.com
 
-It is best of follow the instructions provided for your specific scenario and registrar. The scenario discussed above applies to previously purchased through one of the common registrars such as Bluehost, Godaddy, or Fatcow.
-
+The above is given as an example. Follow the instructions for your specific domain provider.
 
 ## Adding Blog Subdomain
 
@@ -119,7 +118,7 @@ One to the things you may want to do is add a subdomain to your domain and have 
   <img src="/images/AAAA.jpg" alt="AAAA records" /> 
 </p>
 
-In the section for A/AAAA Records select the link 'Add a new A record'.  For Hostname add `http://blog.example.com`. In the IP Address field enter the IP address of your Linode server. 
+In the section for A/AAAA Records select the link "Add a new A record".  For Hostname add `http://blog.example.com`. In the IP Address field enter the IP address of your Linode server. 
 
 <p align="center">
   <img src="/images/EditAAAA.jpg" alt="Editing AAAA records" /> 
@@ -141,7 +140,7 @@ Enter the `username` that you use to log into your Linode server. This user must
 Enter the `IPAddress` of your Linode server.
 {{< /note>}}
 
-Further clarification on logging in with SSH can be found in the [Getting started](/docs/getting-started) guide in the section titled *Log In for the First Time*. Create a directory named hugo and change into this directory. 
+Further clarification on logging in with SSH can be found in the [Getting started](/docs/getting-started) guide in the section titled *Log In for the First Time*. Create a directory named "hugo" and change into this directory. 
 
 
 ## Installing Hugo
@@ -155,7 +154,7 @@ Use the `wget` command to get the latest Hugo release files. Latest releases are
     wget https://github.com/gohugoio/hugo/releases/download/v0.31.1/hugo_0.31.1_Linux-64bit.deb
 
 {{< note >}}
-To get the link to the release you wish to obtain right click on the release link and select Copy Link. Paste in the Terminal window.
+To get the link to the release you wish to obtain right click on the release link and select "Copy Link". Paste in the Terminal window.
 {{< /note >}}
 
 <p align="center">
@@ -223,11 +222,11 @@ If you are getting started with creating blog articles with Hugo the best source
 
 ## Installing Nginx
 
-Now that you have a basic Hugo blog post created, the next issue is making it accessible to the public using your domain name. Hugo blog has a built-in server that runs, by default, at port 1313. This means that if Hugo was installed on your local machine, such as a desktop or laptop, it is accessible with `http://localhost:1313/`. 
+Now that you have a basic Hugo blog post created, the next issue is making it accessible to the public using your domain name. Hugo has a built-in server that runs, by default, at port 1313. This means that if Hugo was installed on your local machine, such as a desktop or laptop, it is accessible with `http://localhost:1313/`. 
 
 Providing direct port access can increase vulnerabilities to web based attacks. Using Nginx protects your Linode server against common vulnerabilities and can be configured to make several server instances publicly accessible on port 80 by adding subdomains to your domain name. 
 
-In our case we added `blog` subdomain `http://blog.example.com`.
+In our case we added the `blog` subdomain: `http://blog.example.com`.
 
 <p align="center">
   <img src="/images/Nginxrevproxy.jpg" alt="Nginx as Reverse proxy" /> 
@@ -261,7 +260,7 @@ If the Nginx server is running as expected the following output should be displa
 
 ## Configuring Nginx
 
-There are a number of commands that will become necessary for starting, stopping, reloading, and checking the status of the nginx server as changes are made to the nginx server configuration file `/etc/nginx/sites-available/default`.
+There are a number of commands that are useful for starting, stopping, reloading, and checking the status of the nginx server as changes are made to the nginx server configuration file `/etc/nginx/sites-available/default`.
 
     // Check server status
     systemctl status nginx
@@ -326,7 +325,7 @@ Press the **Escape** key, then press **:wq** to end editing of the config file. 
 {{< /note >}}
 
 ### Vim Editor Basics
-
+{{Rohan: This section really doesn't belong in the scope of this article. Replace with an external link to a similar VI quick-start.}}
 The Vim editor has two modes of operation. 
 1. Command Mode
 
@@ -344,7 +343,7 @@ The Vim editor has two modes of operation.
 
 ## Running Hugo Server at the Command Line
 
-An equally challenging issue to configuring Nginx, is issuing the correct command to get the Hugo blog running correctly. Consider the following command which s runs blog articles in draft stage using [Material Design](https://themes.gohugo.io/material-design/) theme.
+An equally challenging issue to configuring Nginx, is issuing the correct command to get the Hugo blog running correctly. Consider the following command which runs blog articles in draft stage using [Material Design](https://themes.gohugo.io/material-design/) theme.
 
     hugo server -t material-design -D
 
@@ -384,7 +383,7 @@ Viewing the web browser page source will show that links to page CSS files inclu
   <img src="/images/LocalhostCSS.jpg" alt="Page source with localhost CSS" /> 
 </p>
 
-Clearly what we need is something similar to `http://example.com/css/style.css`. We can achieve the correct CSS links by adding the baseUrl and appendPort setting in the command to run the Hugo server.
+Clearly what we need is something similar to `http://example.com/css/style.css`. We can achieve the correct CSS links by adding the "baseUrl" and "appendPort" setting in the command to run the Hugo server.
 
     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false &
 
@@ -451,16 +450,16 @@ It is very possible that you may attempt to stop or reload the Nginx server and 
     Failed to stop nginx.service: The name org.freedesktop.PolicyKit1 was not provided by any .service files
     See system logs and 'systemctl status nginx.service' for details.
 
-To start, stop, or reload Nginx it is necessary to use the `sudo` prefix along with the command to stop, reload or start Nginx. That is, `sudo systemctl stop nginx`, `sudo systemctl reload nginx`, `sudo systemctl start nginx`.
+To start, stop, or reload Nginx it is necessary to prefix the command with `sudo`. For example: `sudo systemctl reload nginx`.
 
 ### Hugo Server did not Shutdown Using **CTRL+C**
 
-There are times when shutting down the server with **CTRL+C** doesn't do the trick. This may be apparent the next time we attempt to start-up the Hugo server. For example, the Terminal console may display something to the effect, "Web Server is available at `http://localhost:12345`". 
+There are times when shutting down the server with **CTRL+C** doesn't do the trick. This may be apparent the next time we attempt to start-up the Hugo server. For example, the Terminal console may display something similar to `web server is available at http://localhost:12345`. 
 
-Here is the scenario that can result in this condition:
+Here is a scenario that can result in this condition:
 1. **CTRL+C** was used to shutdown the Hugo server. 
 2. We regained the command prompt and so think the server stopped running
-3. Later, we issue the command to start the Hugo server and get the console output, "Web Server is available at `http://localhost:12345`".
+3. Later, we issue the command to start the Hugo server and get the console output `web server is available at http://localhost:12345`.
 
 This scenario means that the server did not shutdown as expected with **CTRL+C** and so an error statement was issued and a new server instance was created at port 12345. 
     
@@ -477,7 +476,7 @@ Terminal output should be similar to:
 
     [1]-  Terminated     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false
 
-However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 because port 1313 was not available. In this situation running command `ps aux | grep hugo` should show that there are more than one Hugo servers running. Each is running with a different Process ID.
+However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 when port 1313 was not available. In this situation running the command `ps aux | grep hugo` should show that there is more than `hugo server` running. Note the different process ids.
 
 {{< note >}}
 `username` will be replaced with the username you used to login to Linode.
@@ -496,29 +495,23 @@ A better approach is to use the pkill command.
 
     pkill hugo
 
-Then show the list of hugo processes.
-
-    ps aux | grep hugo
-
-Which should return output:
+Now `ps aux | grep hugo` should show no hugo servers running:
 
     username 16628  0.0  0.1  14224  1020 pts/1    S+   15:29   0:00 grep --color=auto hugo
 
 ### Web Browser Returns Bad Gateway
 
-Bad Gateway can be returned by the web browser if the Hugo server is not running or is not running at port 1313. 
+"Bad Gateway" can be returned by the web browser if the Hugo server is not running or is not running at port 1313. 
 
 <p align="center">
   <img src="/images/BadGateway.jpg" alt="Bad Gateway web page" /> 
 </p>
 
-One way to find out more about status of the Hugo server is to issue command:
+In this case you can use `ps aux | grep hugo` to verify the server is not running.
 
-    ps aux | grep hugo
+Restart the server, then check for any errors:
 
-If Hugo is stopped the command returns an output similar to:
-
-    username 15873  0.0  0.1  14224  1024 pts/2    S+   12:29   0:00 grep --color=auto hugo
+    hugo server -t YOUR-TEMPLATE-NAME -D --baseUrl="http://blog.YOUR-DOMAIN-NAME" --appendPort=false &
 
 
 ## Learning more about Hugo
