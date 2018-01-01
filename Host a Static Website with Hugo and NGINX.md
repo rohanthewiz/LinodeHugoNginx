@@ -275,7 +275,7 @@ There are a number of commands that will become necessary for starting, stopping
     // Starting Nginx server
     sudo systemctl start nginx
 
-Modify Nginx server configuration with the following command:
+Edit the Nginx server configuration with the [Vim](http://www.vim.org/) text editor:
 
     sudo vim /etc/nginx/sites-available/default
 
@@ -318,6 +318,25 @@ server {
         }
 }
 ```
+
+Press the **Escape** key, then press keys **:+w+q** to end editing of the config file.
+
+{{< note >}}
+[Nano editor](https://www.nano-editor.org/) can also be used to edit the Nginx configuration file.
+{{< /note >}}
+
+### Vim Editor Basics
+
+The Vim editor has two modes of operation. 
+1. Command Mode
+Press the **Escape** key to enter command mode. Command mode allows several actions such as saving the file and exiting, deleting a character or a line of text, and exiting without saving changes to the file.
+* dd  - Delete a line of text
+* x   - Delete a single character
+* :wq - Save changes to the file and exit
+* :q! - Exit the file without saving changes 
+
+2. Insert Mode
+Press **i** to enter insert mode. Insert mode allows text to be added to or deleted from the file.
 
 
 ## Running Hugo Server at the Command Line
