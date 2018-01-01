@@ -267,10 +267,13 @@ There are a number of commands that will become necessary for starting, stopping
     systemctl status nginx
 
     // Reload Nginx without stopping
-    systemctl reload nginx
+    sudo systemctl reload nginx
 
     // Stopping Nginx server
-    systemctl stop nginx
+    sudo systemctl stop nginx
+
+    // Starting Nginx server
+    sudo systemctl start nginx
 
 Modify Nginx server configuration with the following command:
 
@@ -285,7 +288,7 @@ server {
         listen 80 default_server;
         listen [::]:80 default_server;
 
-        root /var/www/html;
+        #root /var/www/html;
 
         # Add index.php to the list if you are using PHP
         index index.html index.htm index.nginx-debian.html;
@@ -303,12 +306,11 @@ server {
 server {
         listen 80;
 
-        root /var/www/html;
+        #root /var/www/html;
 
         server_name blog.example.com;
 
         location / {
-
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $remote_addr;
                 proxy_set_header Host $host;
@@ -419,6 +421,15 @@ Running the command to start the Hugo server from outside the Hugo directory wil
 
     Error: Unable to locate Config file. Perhaps you need to create a new site.
        Run `hugo help new` for details. (Config File "config" Not Found in "[/home/username]")
+
+### Failed to Stop Nginx.Service
+
+It is very possible that you may attempt to stop or reload the Nginx server and get the following console output:
+
+    Failed to stop nginx.service: The name org.freedesktop.PolicyKit1 was not provided by any .service files
+    See system logs and 'systemctl status nginx.service' for details.
+
+To start, stop, or reload Nginx it is necessary to use the `sudo` prefix along with the command to stop, reload or start Nginx. That is, `sudo systemctl stop nginx`, `sudo systemctl reload nginx`, `sudo systemctl start nginx`.
 
 ### Hugo Server did not Shutdown Using **CTRL+C**
 
