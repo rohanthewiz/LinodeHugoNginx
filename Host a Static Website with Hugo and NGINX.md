@@ -329,13 +329,16 @@ Press the **Escape** key, then press **:wq** to end editing of the config file. 
 
 The Vim editor has two modes of operation. 
 1. Command Mode
+
 Press the **Escape** key to enter command mode. Command mode allows several actions such as saving the file and exiting, deleting a character or a line of text, and exiting without saving changes to the file.
+
 * dd  - Delete a line of text
 * x   - Delete a single character
 * :wq - Save changes to the file and exit. Execute the command with the **Enter** key.
 * :q! - Exit the file without saving changes. Execute the command with the **Enter** key. 
 
 2. Insert Mode
+
 Press **i** to enter insert mode. Insert mode allows text to be added to or deleted from the file.
 
 
@@ -474,7 +477,7 @@ Terminal output should be similar to:
 
     [1]-  Terminated     hugo server -t material-design -D --baseUrl="http://blog.example.com" --appendPort=false
 
-However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 because port 1313 was not available. In this situation running command ps aux | grep hugo should show that there are more than one Hugo servers running. Each is running with a different Process ID.
+However, stopping the process on port 1313 is not enough since a new Hugo process was fired up on port 12345 because port 1313 was not available. In this situation running command `ps aux | grep hugo` should show that there are more than one Hugo servers running. Each is running with a different Process ID.
 
 {{< note >}}
 `username` will be replaced with the username you used to login to Linode.
